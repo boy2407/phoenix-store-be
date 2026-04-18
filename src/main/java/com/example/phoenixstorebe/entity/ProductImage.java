@@ -1,5 +1,6 @@
 package com.example.phoenixstorebe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,6 +8,8 @@ import lombok.*;
 @Table(name = "product_images")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductImage {
 
     @Id
@@ -22,10 +25,12 @@ public class ProductImage {
     // Ảnh thuộc về sản phẩm tổng thể
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
 
     // Ảnh có thể thuộc về một biến thể cụ thể (có thể NULL)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "variant_id")
+    @JsonIgnore
     private ProductVariant variant;
 }

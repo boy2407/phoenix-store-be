@@ -1,0 +1,99 @@
+// ===================== CATEGORY =====================
+// Example JSON for creating a root category (no parent)
+{
+  "name": "Vòng tay",
+  "parentId": null
+}
+{
+  "name": "Dây chuyền",
+  "parentId": null
+}
+
+// Example JSON for creating a sub-category (with parent)
+{
+  "name": "Vòng tay đá",
+  "parentId": 1
+}
+{
+  "name": "Vòng tay gỗ",
+  "parentId": 1
+}
+{
+  "name": "Dây chuyền bạc",
+  "parentId": 2
+}
+{
+  "name": "Dây chuyền vàng",
+  "parentId": 2
+}
+
+// Example JSON for updating a category
+{
+  "name": "Tên danh mục mới",
+  "parentId": null
+}
+
+// ===================== PRODUCT =====================
+// Example JSON for creating a product
+{
+  "id": 1,
+  "name": "Vòng tay đá phong thủy",
+  "description": "Vòng tay đá tự nhiên, mang lại may mắn",
+  "category": {
+    "id": 3,
+    "name": "Vòng tay đá"
+  }
+}
+
+// Example JSON for updating a product
+{
+  "name": "Dây chuyền bạc cao cấp",
+  "description": "Dây chuyền bạc 925, thiết kế sang trọng",
+  "category": {
+    "id": 5
+  }
+}
+
+// ===================== USER =====================
+// Example JSON for creating a user
+{
+  "id": 1,
+  "fullname": "Nguyen Van A",
+  "email": "a@example.com",
+  "password": "123456",
+  "phone": "0123456789",
+  "role": {
+    "id": 1,
+    "roleName": "ADMIN"
+  }
+}
+
+// Example JSON for updating a user
+{
+  "fullname": "Nguyen Van B",
+  "phone": "0987654321"
+}
+
+// ===================== PRODUCT VARIANT =====================
+// Example JSON for creating a product variant
+{
+  "id": 1,
+  "sku": "VT-DA-10MM",
+  "price": 299000,
+  "stockQty": 10,
+  "product": {
+    "id": 1
+  }
+}
+
+// ===================== PRODUCT IMAGE =====================
+// Example JSON for creating a product image
+{
+  "id": 1,
+  "imageUrl": "https://example.com/vongtay1.jpg",
+  "isMain": true,
+  "product": {
+    "id": 1
+  },
+  "variant": null
+}

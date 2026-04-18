@@ -1,14 +1,15 @@
 package com.example.phoenixstorebe.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_details")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderDetail {
 
     @Id

@@ -1,8 +1,8 @@
 package com.example.phoenixstorebe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +11,8 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     @Id
@@ -20,7 +22,7 @@ public class Order {
     @Column(name = "total_price", precision = 15, scale = 2)
     private BigDecimal totalPrice;
 
-    @Enumerated(EnumType.STRING) 
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @Column(columnDefinition = "TEXT")
@@ -36,6 +38,7 @@ public class Order {
 
     // Quan hệ 1-N với OrderDetail
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<OrderDetail> orderDetails;
 }
 

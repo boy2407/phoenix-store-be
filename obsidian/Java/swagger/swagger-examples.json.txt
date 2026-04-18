@@ -1,0 +1,12 @@
+// Ví dụ request/response cho Swagger
+{
+  "category": {
+    "name": "Vòng tay",
+    "parentId": null
+  },
+  "product": {
+    "name": "Dây chuyền bạc",
+    "categoryId": 1
+  }
+}
+
