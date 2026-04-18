@@ -17,6 +17,8 @@ public class ProductVariant {
     @GeneratedValue( strategy = jakarta.persistence.GenerationType.IDENTITY)
     private  Long Id;
 
+
+
     @Column(unique = true, length = 100)
     private String sku;
 

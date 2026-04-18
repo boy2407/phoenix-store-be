@@ -1,0 +1,42 @@
+[
+  // Vòng tay đá thạch anh (id: 1)
+  {
+    "sku": "VT-DTA-18",
+    "price": 350000,
+    "stockQty": 10,
+    "product": { "id": 1 }
+  },
+  {
+    "sku": "VT-DTA-20",
+    "price": 355000,
+    "stockQty": 8,
+    "product": { "id": 1 }
+  },
+  // Dây chuyền bạc nữ cao cấp (id: 6)
+  {
+    "sku": "DC-BAC-NU-CP-60",
+    "price": 1200000,
+    "stockQty": 5,
+    "product": { "id": 6 }
+  },
+  {
+    "sku": "DC-BAC-NU-CP-55",
+    "price": 1150000,
+    "stockQty": 7,
+    "product": { "id": 6 }
+  },
+  // Dây chuyền mặt đá phong thủy (id: 10)
+  {
+    "sku": "DC-MD-PT-55",
+    "price": 950000,
+    "stockQty": 6,
+    "product": { "id": 10 }
+  },
+  {
+    "sku": "DC-MD-PT-60",
+    "price": 970000,
+    "stockQty": 4,
+    "product": { "id": 10 }
+  }
+]
+

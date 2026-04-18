@@ -179,3 +179,100 @@ public class UserController {
 - Thứ tự @ExceptionHandler: từ cụ thể đến chung (ví dụ: BadRequestException trước Exception).
 - Nên tạo custom exception để dễ xử lý và bảo trì.
 
+---
+
+## 3. Phân biệt Checked Exception, Unchecked Exception, Error trong Java?
+
+**Câu trả lời ngắn gọn:**
+- Checked Exception: Phải khai báo hoặc bắt, kế thừa Exception (không phải RuntimeException).
+- Unchecked Exception: Không bắt buộc phải khai báo hoặc bắt, kế thừa RuntimeException.
+- Error: Lỗi nghiêm trọng, không nên bắt, kế thừa Error.
+
+**Giải thích chi tiết:**
+- Checked Exception: IDE bắt buộc phải xử lý, ví dụ IOException, SQLException.
+- Unchecked Exception: Lỗi do lập trình sai, dữ liệu không hợp lệ, ví dụ NullPointerException, IndexOutOfBoundsException.
+- Error: Lỗi hệ thống, JVM, ví dụ OutOfMemoryError, StackOverflowError.
+
+**Ví dụ cụ thể:**
+```java
+try {
+    FileReader reader = new FileReader("file.txt"); // Checked Exception
+} catch (IOException e) { ... }
+
+String s = null;
+s.length(); // Unchecked Exception (NullPointerException)
+
+try {
+    recursive(); // Error (StackOverflowError)
+} catch (StackOverflowError e) { ... }
+void recursive() { recursive(); }
+```
+
+**Liên kết kiến thức:**
+- [[core-java/exception-types.md]]
+- [[core-java/unchecked-exception.md]]
+- [[spring-boot/exception-structure.md]]
+
+**Mẹo/Lưu ý:**
+- Chỉ nên bắt và xử lý Exception, không nên bắt Error.
+
+---
+
+## 4. @ControllerAdvice và @ExceptionHandler là gì? Dùng để làm gì?
+
+**Câu trả lời ngắn gọn:**
+- @ControllerAdvice: Xử lý exception toàn cục cho controller.
+- @ExceptionHandler: Định nghĩa phương thức xử lý một loại exception cụ thể.
+
+**Giải thích chi tiết:**
+- @ControllerAdvice giúp gom logic xử lý lỗi vào một nơi, dễ bảo trì.
+- @ExceptionHandler giúp trả về response phù hợp cho từng loại exception.
+
+**Ví dụ cụ thể:**
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> handleBadRequest(BadRequestException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+}
+```
+
+**Liên kết kiến thức:**
+- [[spring-boot/controlleradvice.md]]
+- [[spring-boot/exceptionhandler.md]]
+- [[spring-boot/exception-structure.md]]
+
+**Mẹo/Lưu ý:**
+- Có thể dùng @RestControllerAdvice cho REST API.
+- Nên tạo custom exception để xử lý rõ ràng.
+
+---
+
+## 5. Vì sao không nên bắt Error trong Java?
+
+**Câu trả lời ngắn gọn:**
+- Error là lỗi nghiêm trọng, không thể phục hồi, không nên bắt.
+
+**Giải thích chi tiết:**
+- Error thường do JVM hoặc hệ điều hành, ví dụ OutOfMemoryError, StackOverflowError.
+- Nếu bắt Error, có thể che giấu lỗi hệ thống, gây khó debug.
+
+**Ví dụ cụ thể:**
+```java
+try {
+    recursive();
+} catch (StackOverflowError e) {
+    System.out.println("Stack overflow!");
+}
+void recursive() { recursive(); }
+```
+
+**Liên kết kiến thức:**
+- [[core-java/exception-types.md]]
+
+**Mẹo/Lưu ý:**
+- Chỉ nên bắt Exception, không nên bắt Error.
+
+---

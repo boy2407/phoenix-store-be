@@ -13,16 +13,18 @@
 3. Đảm bảo phân chia file rõ ràng theo chủ đề, dễ tìm kiếm, dễ mở rộng.
 4. Ưu tiên trả lời ngắn gọn, súc tích, dễ hiểu, có ví dụ minh họa nếu cần.
 5. Khi có yêu cầu, sẽ tạo thêm file tổng hợp kiến thức hoặc câu hỏi mới theo chủ đề.
-6. Khi ghi chú kiến thức hoặc câu hỏi, luôn tạo liên kết giữa các kiến thức liên quan và giữa các câu hỏi với phần kiến thức tương ứng bằng cú pháp `[[tên-file-hoặc-chủ-đề]]` để dễ dàng tra cứu, ví dụ: [[core-java]], [[spring-boot]], [[hibernate-jpa]], ...
-7. Luôn sắp xếp kiến thức theo chiều mở rộng (từ tổng quan đến chi tiết, từ cơ bản đến nâng cao) để có một cái nhìn tổng thể, dễ hệ thống hóa và dễ tra cứu.
-8. Với mỗi kiến thức, luôn bổ sung ví dụ cụ thể, dễ hiểu, dễ nắm bắt, ưu tiên ví dụ thực tế, có chú thích rõ ràng nếu cần.
+6. Khi ghi chú iến thức, chủ đề mới hoặc mỗi lần có câu hỏi/vấn đề mới hoặc câu hỏi, luôn tạo liên kết giữa các kiến thức liên quan và giữa các câu hỏi với phần kiến thức tương ứng bằng cú pháp `[[tên-file-hoặc-chủ-đề]]` để dễ dàng tra cứu, ví dụ: [[core-java]], [[spring-boot]], [[hibernate-jpa]], ...
+7. Luôn sắp xếp iến thức, chủ đề mới hoặc mỗi lần có câu hỏi/vấn đề mới theo chiều mở rộng (từ tổng quan đến chi tiết, từ cơ bản đến nâng cao) để có một cái nhìn tổng thể, dễ hệ thống hóa và dễ tra cứu.
+8. Với mỗi iến thức, chủ đề mới hoặc mỗi lần có câu hỏi/vấn đề mới, luôn bổ sung ví dụ cụ thể, dễ hiểu, dễ nắm bắt, ưu tiên ví dụ thực tế, có chú thích rõ ràng nếu cần.
 9. Với mỗi câu hỏi phỏng vấn, luôn trả lời:
    - **Câu trả lời ngắn gọn**: Tóm tắt ý chính (1-2 dòng).
    - **Giải thích chi tiết**: Khái quát khái niệm, lý thuyết, nguyên lý liên quan.
    - **Ví dụ cụ thể**: Cung cấp ví dụ thực tế, code hoặc kịch bản cụ thể, dễ hiểu.
    - **Liên kết kiến thức**: Tham chiếu đến file kiến thức tương ứng (ví dụ: [[spring-boot/spring-boot.md]], [[core-java/core-java.md]]).
    - **Mẹo/Lưu ý**: Thêm thông tin bổ sung, cú pháp, lỗi thường gặp, hoặc best practice nếu có.
-10. Với mỗi kiến thức mới được hỏi, Copilot sẽ tạo hoặc cập nhật theo cấu trúc:
+   
+10. Với mỗi iến thức, chủ đề mới hoặc mỗi lần có câu hỏi/vấn đề mới được hỏi, Copilot sẽ tạo hoặc cập nhật theo cấu trúc:
+    Với mỗi kiến thức, chủ đề mới hoặc mỗi lần có câu hỏi/vấn đề mới, BẮT BUỘC phải tạo hoặc cập nhật file interview-questions-{chủ-đề}.md chứa các câu hỏi phỏng vấn và câu trả lời chi tiết theo rule 9. KHÔNG được bỏ qua bước này.
     - **{chủ-đề}/{chủ-đề}.md**: File tổng hợp kiến thức chính (khái quát, lý thuyết, ví dụ).
     - **{chủ-đề}/interview-questions-{chủ-đề}.md**: File câu hỏi phỏng vấn kèm câu trả lời đầy đủ theo rule 9.
     - **{chủ-đề}/example-{chủ-đề}.md**: File ví dụ code, kịch bản thực tế liên quan.
@@ -82,3 +84,4 @@
     - Nếu kiến thức liên quan thuộc chủ đề khác, tạo hoặc cập nhật file ở chủ đề đó và thêm liên kết qua lại.
     - Cấu trúc folder/file phải phản ánh rõ ràng mối quan hệ giữa các chủ đề (ví dụ: core-java, spring-boot, hibernate-jpa, security, git, swagger, ...), mỗi chủ đề là một folder, mỗi khía cạnh là một file (kiến thức tổng hợp, ví dụ, interview, ...).
     - Ưu tiên cấu trúc dễ mở rộng, dễ tìm kiếm, dễ tra cứu, tránh trùng lặp nội dung.
+14. Khi thêm kiến thức, ví dụ, hoặc câu hỏi mới cho bất kỳ chủ đề nào, Copilot PHẢI luôn xem xét vị trí hợp lý nhất theo chiều mở rộng (từ tổng quan đến chi tiết, từ cơ bản đến nâng cao) trong file tương ứng để chèn nội dung. Không được thêm bừa vào cuối file mà phải sắp xếp, nhóm, hoặc gộp nội dung mới vào đúng vị trí, đảm bảo hệ thống hóa, dễ tra cứu, dễ mở rộng. Nếu cần, có thể gợi ý hoặc tự động tái cấu trúc lại file để chủ đề/phần kiến thức/câu hỏi luôn liền mạch, thông minh, dễ hiểu nhất cho người học.

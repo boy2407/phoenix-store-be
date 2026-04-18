@@ -4,6 +4,7 @@ import com.example.phoenixstorebe.entity.Category;
 import com.example.phoenixstorebe.repository.CategoryRepository;
 import com.example.phoenixstorebe.service.CategoryService;
 import com.example.phoenixstorebe.payload.category.*;
+import com.example.phoenixstorebe.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -56,45 +57,57 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse createCategory(CategoryCreateRequest request) {
-        Category category = new Category();
-        category.setName(request.getName());
-        if (request.getParentId() != null) {
-            Optional<Category> parentOpt = categoryRepository.findById(request.getParentId());
-            if (parentOpt.isPresent()) {
-                category.setParent(parentOpt.get());
+        try {
+            Category category = new Category();
+            category.setName(request.getName());
+            if (request.getParentId() != null) {
+                Optional<Category> parentOpt = categoryRepository.findById(request.getParentId());
+                if (parentOpt.isPresent()) {
+                    category.setParent(parentOpt.get());
+                } else {
+                    throw new BadRequestException("Parent category not found");
+                }
             } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent category not found");
+                category.setParent(null);
             }
-        } else {
-            category.setParent(null);
+            return mapToResponse(categoryRepository.save(category));
+        } catch (Exception ex) {
+            throw new BadRequestException("Create category failed");
         }
-        return mapToResponse(categoryRepository.save(category));
     }
 
     @Override
     public Optional<CategoryResponse> updateCategory(Long id, CategoryUpdateRequest request) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
-            Category category = optionalCategory.get();
-            category.setName(request.getName());
-            if (request.getParentId() != null) {
-                categoryRepository.findById(request.getParentId()).ifPresent(category::setParent);
+        try {
+            Optional<Category> optionalCategory = categoryRepository.findById(id);
+            if (optionalCategory.isPresent()) {
+                Category category = optionalCategory.get();
+                category.setName(request.getName());
+                if (request.getParentId() != null) {
+                    categoryRepository.findById(request.getParentId()).ifPresent(category::setParent);
+                } else {
+                    category.setParent(null);
+                }
+                return Optional.of(mapToResponse(categoryRepository.save(category)));
             } else {
-                category.setParent(null);
+                throw new BadRequestException("Category not found");
             }
-            return Optional.of(mapToResponse(categoryRepository.save(category)));
-        } else {
-            return Optional.empty();
+        } catch (Exception ex) {
+            throw new BadRequestException("Update category failed");
         }
     }
 
     @Override
     public boolean deleteCategory(Long id) {
-        if (categoryRepository.existsById(id)) {
-            categoryRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
+        try {
+            if (categoryRepository.existsById(id)) {
+                categoryRepository.deleteById(id);
+                return true;
+            } else {
+                throw new BadRequestException("Category not found");
+            }
+        } catch (Exception ex) {
+            throw new BadRequestException("Delete category failed");
         }
     }
 

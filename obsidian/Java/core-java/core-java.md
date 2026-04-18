@@ -71,6 +71,7 @@ try {
 - [[core-java/interview-questions-core-java.md]]
 - [[core-java/example-core-java.md]]
 - [[core-java/runtimeexception.md]]
+- [[core-java/unchecked-exception.md]]
 - [[spring-boot/spring-boot.md]] (Exception handler)
 - [[hibernate-jpa/hibernate-jpa.md]] (Entity, OOP)
-
+- [[core-java/exception-types.md]]

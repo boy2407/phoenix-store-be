@@ -86,4 +86,8 @@
 - [[core-java/core-java.md]] (OOP, Exception)
 - [[hibernate-jpa/hibernate-jpa.md]] (Entity, Repository)
 - [[security/spring-security.md]] (Authentication)
-
+- [[spring-boot/service-requiredargsconstructor.md]]
+- [[spring-boot/badrequest-vs-runtimeexception.md]]
+- [[spring-boot/controlleradvice.md]]
+- [[spring-boot/exceptionhandler.md]]
+- [[spring-boot/exception-structure.md]]

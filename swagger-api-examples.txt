@@ -33,26 +33,166 @@
   "parentId": null
 }
 
-// ===================== PRODUCT =====================
-// Example JSON for creating a product
+
+// ===================== PRODUCT (TEST DATA) =====================
+// 5 sản phẩm cho mỗi category gốc và category con
+// Vòng tay (id: 1)
 {
-  "id": 1,
-  "name": "Vòng tay đá phong thủy",
-  "description": "Vòng tay đá tự nhiên, mang lại may mắn",
-  "category": {
-    "id": 3,
-    "name": "Vòng tay đá"
-  }
+  "name": "Vòng tay đá thạch anh",
+  "description": "Vòng tay đá thạch anh tự nhiên",
+  "categoryIds": [1]
+}
+{
+  "name": "Vòng tay gỗ sưa",
+  "description": "Vòng tay gỗ sưa đỏ quý hiếm",
+  "categoryIds": [1]
+}
+{
+  "name": "Vòng tay mã não",
+  "description": "Vòng tay mã não đỏ",
+  "categoryIds": [1]
+}
+{
+  "name": "Vòng tay obsidian",
+  "description": "Vòng tay đá obsidian đen",
+  "categoryIds": [1]
+}
+{
+  "name": "Vòng tay aventurine",
+  "description": "Vòng tay đá aventurine xanh",
+  "categoryIds": [1]
+}
+// Dây chuyền (id: 2)
+{
+  "name": "Dây chuyền bạc nữ",
+  "description": "Dây chuyền bạc nữ cao cấp",
+  "categoryIds": [2]
+}
+{
+  "name": "Dây chuyền vàng nữ",
+  "description": "Dây chuyền vàng nữ sang trọng",
+  "categoryIds": [2]
+}
+{
+  "name": "Dây chuyền bạc nam",
+  "description": "Dây chuyền bạc nam mạnh mẽ",
+  "categoryIds": [2]
+}
+{
+  "name": "Dây chuyền vàng nam",
+  "description": "Dây chuyền vàng nam mạnh mẽ",
+  "categoryIds": [2]
+}
+{
+  "name": "Dây chuyền mặt đá",
+  "description": "Dây chuyền mặt đá phong thủy",
+  "categoryIds": [2]
+}
+// Vòng tay đá (id: 3)
+{
+  "name": "Vòng tay đá mắt hổ",
+  "description": "Vòng tay đá mắt hổ phong thủy",
+  "categoryIds": [3]
+}
+{
+  "name": "Vòng tay đá mã não",
+  "description": "Vòng tay đá mã não đỏ",
+  "categoryIds": [3]
+}
+{
+  "name": "Vòng tay đá obsidian",
+  "description": "Vòng tay đá obsidian đen",
+  "categoryIds": [3]
+}
+{
+  "name": "Vòng tay đá aventurine",
+  "description": "Vòng tay đá aventurine xanh",
+  "categoryIds": [3]
+}
+{
+  "name": "Vòng tay đá thạch anh tóc",
+  "description": "Vòng tay đá thạch anh tóc vàng",
+  "categoryIds": [3]
+}
+// Vòng tay gỗ (id: 4)
+{
+  "name": "Vòng tay gỗ trầm hương",
+  "description": "Vòng tay gỗ trầm hương tự nhiên",
+  "categoryIds": [4]
+}
+{
+  "name": "Vòng tay gỗ mun",
+  "description": "Vòng tay gỗ mun sọc",
+  "categoryIds": [4]
+}
+{
+  "name": "Vòng tay gỗ bách xanh",
+  "description": "Vòng tay gỗ bách xanh thơm",
+  "categoryIds": [4]
+}
+{
+  "name": "Vòng tay gỗ huyết long",
+  "description": "Vòng tay gỗ huyết long đỏ",
+  "categoryIds": [4]
+}
+{
+  "name": "Vòng tay gỗ sưa",
+  "description": "Vòng tay gỗ sưa đỏ quý hiếm",
+  "categoryIds": [4]
+}
+// Dây chuyền bạc (id: 5)
+{
+  "name": "Dây chuyền bạc trẻ em",
+  "description": "Dây chuyền bạc cho bé an toàn",
+  "categoryIds": [5]
+}
+{
+  "name": "Dây chuyền bạc 925",
+  "description": "Dây chuyền bạc 925 chuẩn quốc tế",
+  "categoryIds": [5]
+}
+{
+  "name": "Dây chuyền bạc mặt đá",
+  "description": "Dây chuyền bạc mặt đá phong thủy",
+  "categoryIds": [5]
+}
+{
+  "name": "Dây chuyền bạc nữ",
+  "description": "Dây chuyền bạc nữ cao cấp",
+  "categoryIds": [5]
+}
+{
+  "name": "Dây chuyền bạc nam",
+  "description": "Dây chuyền bạc nam mạnh mẽ",
+  "categoryIds": [5]
+}
+// Dây chuyền vàng (id: 6)
+{
+  "name": "Dây chuyền vàng trẻ em",
+  "description": "Dây chuyền vàng cho bé an toàn",
+  "categoryIds": [6]
+}
+{
+  "name": "Dây chuyền vàng 18k",
+  "description": "Dây chuyền vàng 18k cao cấp",
+  "categoryIds": [6]
+}
+{
+  "name": "Dây chuyền vàng mặt đá",
+  "description": "Dây chuyền vàng mặt đá phong thủy",
+  "categoryIds": [6]
+}
+{
+  "name": "Dây chuyền vàng nữ",
+  "description": "Dây chuyền vàng nữ sang trọng",
+  "categoryIds": [6]
+}
+{
+  "name": "Dây chuyền vàng nam",
+  "description": "Dây chuyền vàng nam mạnh mẽ",
+  "categoryIds": [6]
 }
 
-// Example JSON for updating a product
-{
-  "name": "Dây chuyền bạc cao cấp",
-  "description": "Dây chuyền bạc 925, thiết kế sang trọng",
-  "category": {
-    "id": 5
-  }
-}
 
 // ===================== USER =====================
 // Example JSON for creating a user
@@ -84,6 +224,112 @@
   "product": {
     "id": 1
   }
+}
+
+// ===================== PRODUCT VARIANT (EXAMPLES) =====================
+// Vòng tay đá thạch anh (id: 1)
+{
+  "sku": "VT-DTA-18",
+  "price": 350000,
+  "stockQty": 10,
+  "productId": 1
+}
+{
+  "sku": "VT-DTA-20",
+  "price": 355000,
+  "stockQty": 8,
+  "productId": 1
+}
+// Vòng tay gỗ sưa (id: 2)
+{
+  "sku": "VT-GS-18",
+  "price": 420000,
+  "stockQty": 6,
+  "productId": 2
+}
+{
+  "sku": "VT-GS-20",
+  "price": 430000,
+  "stockQty": 5,
+  "productId": 2
+}
+// Vòng tay mã não (id: 3)
+{
+  "sku": "VT-MN-18",
+  "price": 310000,
+  "stockQty": 7,
+  "productId": 3
+}
+{
+  "sku": "VT-MN-20",
+  "price": 320000,
+  "stockQty": 6,
+  "productId": 3
+}
+// Dây chuyền bạc nữ cao cấp (id: 6)
+{
+  "sku": "DC-BAC-NU-CP-60",
+  "price": 1200000,
+  "stockQty": 5,
+  "productId": 6
+}
+{
+  "sku": "DC-BAC-NU-CP-55",
+  "price": 1150000,
+  "stockQty": 7,
+  "productId": 6
+}
+// Dây chuyền mặt đá phong thủy (id: 10)
+{
+  "sku": "DC-MD-PT-55",
+  "price": 950000,
+  "stockQty": 6,
+  "productId": 10
+}
+{
+  "sku": "DC-MD-PT-60",
+  "price": 970000,
+  "stockQty": 4,
+  "productId": 10
+}
+// Dây chuyền vàng nữ sang trọng (id: 7)
+{
+  "sku": "DC-VANG-NU-60",
+  "price": 2500000,
+  "stockQty": 3,
+  "productId": 7
+}
+{
+  "sku": "DC-VANG-NU-55",
+  "price": 2450000,
+  "stockQty": 2,
+  "productId": 7
+}
+// Vòng tay đá mắt hổ (id: 11)
+{
+  "sku": "VT-MH-18",
+  "price": 390000,
+  "stockQty": 5,
+  "productId": 11
+}
+{
+  "sku": "VT-MH-20",
+  "price": 400000,
+  "stockQty": 4,
+  "productId": 11
+}
+// Vòng tay gỗ trầm hương (id: 16)
+{
+  "sku": "VT-TH-18",
+  "price": 800000,
+  "stockQty": 2,
+  "productId": 16
+}
+{
+  "sku": "VT-TH-20",
+  "price": 820000,
+  "stockQty": 1,
+  "productId": 16
 }
 
 // ===================== PRODUCT IMAGE =====================
