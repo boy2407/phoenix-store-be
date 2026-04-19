@@ -19,18 +19,27 @@ public class User {
     private Integer id;
 
     @Column(nullable = false)
-    private String fullname;
+    private String lastname;
+
+    @Column(nullable = false)
+    private String firstname;
 
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(unique = true, nullable = false)
+    private String username;
+
     @Column(nullable = false)
     private String password;
 
-    @Column(length = 20)
+    @Column(unique = true, length = 15)
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @Column(nullable = false)
+    private boolean enabled = true;
 }

@@ -1,5 +1,6 @@
 package com.example.phoenixstorebe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +21,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "role_name", length = 50, nullable = false)
+    @Column(unique = true, name = "role_name", length = 50, nullable = false)
     private String roleName;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> users;
 }
