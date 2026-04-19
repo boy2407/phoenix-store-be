@@ -5,6 +5,7 @@ import com.example.phoenixstorebe.payload.category.CategoryUpdateRequest;
 import com.example.phoenixstorebe.payload.category.CategoryResponse;
 import com.example.phoenixstorebe.payload.category.CategoryWithChildrenResponse;
 import com.example.phoenixstorebe.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,12 +43,12 @@ public class CategoryController {
     }
 
     @PostMapping
-    public CategoryResponse createCategory(@RequestBody CategoryCreateRequest request) {
+    public CategoryResponse createCategory(@RequestBody @Valid CategoryCreateRequest request) {
         return categoryService.createCategory(request);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryUpdateRequest request) {
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody @Valid CategoryUpdateRequest request) {
         Optional<CategoryResponse> updated = categoryService.updateCategory(id, request);
         return updated.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

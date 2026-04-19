@@ -220,11 +220,6 @@ public class SynchronizedExample {
         t1.join();
         t2.join();
 
-        System.out.println(counter.getCount()); // 2000 (nếu không synchronized: random)
-    }
-}
-```
-
 ## Liên kết kiến thức
 - [[core-java/core-java.md]]
 - [[core-java/interview-questions-core-java.md]]

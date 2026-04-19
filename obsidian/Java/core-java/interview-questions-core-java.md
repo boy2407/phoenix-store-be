@@ -307,3 +307,29 @@ try {
 - Không nên catch Error, chỉ catch Exception.
 
 ---
+
+## 9. orElseThrow là gì?
+
+**Câu trả lời ngắn gọn:**
+- `orElseThrow` là phương thức của Optional dùng để lấy giá trị nếu có, nếu không sẽ ném ra exception do bạn chỉ định.
+
+**Giải thích chi tiết:**
+- `orElseThrow` giúp xử lý trường hợp Optional rỗng một cách rõ ràng, tránh lỗi NullPointerException.
+- Khi gọi `optional.orElseThrow(Supplier)`, nếu có giá trị sẽ trả về, nếu không sẽ ném exception từ Supplier.
+- Thường dùng để kiểm tra dữ liệu khi truy vấn DB, validate input, ...
+
+**Ví dụ cụ thể:**
+```java
+Optional<String> name = Optional.ofNullable(null);
+String value = name.orElseThrow(() -> new RuntimeException("Not found")); // Ném RuntimeException
+```
+
+**Liên kết kiến thức:**
+- [[core-java/or-else-throw-optional.md]]
+- [[core-java/core-java.md]]
+
+**Mẹo/Lưu ý:**
+- Nếu không muốn ném exception, có thể dùng `orElse`, `orElseGet` để trả về giá trị mặc định.
+- Exception nên rõ ràng, dễ debug.
+
+---

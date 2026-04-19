@@ -10,9 +10,7 @@ import com.example.phoenixstorebe.repository.ProductRepository;
 import com.example.phoenixstorebe.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,14 +21,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse createProduct(ProductCreateRequest request) {
-        Product product = new Product();
-        product.setName(request.getName());
-        product.setDescription(request.getDescription());
-        product.setDeleted(false);
-        List<Category> categories = categoryRepository.findAllById(request.getCategoryIds());
-        product.setCategories(categories);
-        product = productRepository.save(product);
-        return toResponse(product);
+        try {
+            Product product = new Product();
+            product.setName(request.getName());
+            product.setDescription(request.getDescription());
+            product.setDeleted(false);
+            List<Category> categories = categoryRepository.findAllById(request.getCategoryIds());
+            product.setCategories(categories);
+            product = productRepository.save(product);
+            return toResponse(product);
+        } catch (Exception ex) {
+            throw new BadRequestException("Create product failed");
+        }
     }
 
     @Override
@@ -74,25 +76,33 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> searchProducts(ProductSearchRequest request) {
-        List<Product> products = productRepository.findAll();
-        return products.stream()
-                .filter(p -> !p.isDeleted())
-                .filter(p -> request.getNameProduct() == null || p.getName().toLowerCase().contains(request.getNameProduct().toLowerCase()))
-                .filter(p -> request.getCategoryId() == null || p.getCategories().stream().anyMatch(c -> c.getId().equals(request.getCategoryId())))
-                .filter(p -> request.getNameCategory() == null || p.getCategories().stream().anyMatch(c -> c.getName().toLowerCase().contains(request.getNameCategory().toLowerCase())))
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+        try {
+            List<Product> products = productRepository.findAll();
+            return products.stream()
+                    .filter(p -> !p.isDeleted())
+                    .filter(p -> request.getNameProduct() == null || p.getName().toLowerCase().contains(request.getNameProduct().toLowerCase()))
+                    .filter(p -> request.getCategoryId() == null || p.getCategories().stream().anyMatch(c -> c.getId().equals(request.getCategoryId())))
+                    .filter(p -> request.getNameCategory() == null || p.getCategories().stream().anyMatch(c -> c.getName().toLowerCase().contains(request.getNameCategory().toLowerCase())))
+                    .map(this::toResponse)
+                    .collect(Collectors.toList());
+        } catch (Exception ex) {
+            throw new BadRequestException("Search products failed");
+        }
     }
     @Override
     public List<ProductResponse> getProductsByCategoryId(Long categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElse(null);
-        if (category == null || category.getProducts() == null) {
-            return List.of();
+        try {
+            Category category = categoryRepository.findById(categoryId).orElse(null);
+            if (category == null || category.getProducts() == null) {
+                return List.of();
+            }
+            return category.getProducts().stream()
+                    .filter(p -> !p.isDeleted())
+                    .map(this::toResponse)
+                    .collect(Collectors.toList());
+        } catch (Exception ex) {
+            throw new BadRequestException("Get products by category failed");
         }
-        return category.getProducts().stream()
-                .filter(p -> !p.isDeleted())
-                .map(product -> toResponse(product))
-                .collect(Collectors.toList());
     }
 
     private ProductResponse toResponse(Product product) {

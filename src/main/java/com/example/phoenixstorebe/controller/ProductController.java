@@ -2,6 +2,7 @@ package com.example.phoenixstorebe.controller;
 
 import com.example.phoenixstorebe.payload.product.*;
 import com.example.phoenixstorebe.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,12 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponse> create(@RequestBody ProductCreateRequest request) {
+    public ResponseEntity<ProductResponse> create(@RequestBody @Valid ProductCreateRequest request) {
         return ResponseEntity.ok(productService.createProduct(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> update(@PathVariable Long id, @RequestBody ProductUpdateRequest request) {
+    public ResponseEntity<ProductResponse> update(@PathVariable Long id, @RequestBody @Valid  ProductUpdateRequest request) {
         return ResponseEntity.ok(productService.updateProduct(id, request));
     }
 

@@ -1,5 +1,6 @@
 package com.example.phoenixstorebe.service.impl;
 
+import com.example.phoenixstorebe.exception.BadRequestException;
 import com.example.phoenixstorebe.service.StorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 
+
 @Service
 public class StorageServiceImpl implements StorageService {
     private final Path rootLocation = Paths.get("upload-dir");
@@ -20,40 +22,10 @@ public class StorageServiceImpl implements StorageService {
         try {
             Files.createDirectories(rootLocation);
         } catch (IOException e) {
-            throw new RuntimeException("Không thể khởi tạo thư mục lưu trữ", e);
+            throw new BadRequestException("Không thể khởi tạo thư mục lưu trữ");
         }
     }
 
-    @Override
-    public String store(MultipartFile file) {
-        try {
-            if (file.isEmpty()) throw new RuntimeException("File is empty !");
-
-            // Tạo tên file duy nhất để tránh ghi đè (Dùng UUID)
-            LocalDate nowday = LocalDate.now();
-            String year = String.valueOf(nowday.getYear());
-            String month = String.format("%02d", nowday.getMonthValue());
-
-            Path uploadPath = this.rootLocation.resolve(year).resolve(month);
-
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-
-            Path destinationFile = this.rootLocation.resolve(Paths.get(fileName)).normalize().toAbsolutePath();
-
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
-            }
-            return year + "/" + month + "/" + fileName;
-        } catch (IOException e) {
-            throw new RuntimeException("Error when saving a file", e);
-        }
-    }
-
-    // Utility: Remove Vietnamese diacritics
     private String removeVietnameseDiacritics(String input) {
         if (input == null) return null;
         String temp = java.text.Normalizer.normalize(input, java.text.Normalizer.Form.NFD);
@@ -90,17 +62,8 @@ public class StorageServiceImpl implements StorageService {
             // Return relative path for DB
             return year + "/" + month + "/" + safeProductName + "/" + safeSku + "/" + fileName;
         } catch (IOException e) {
-            throw new RuntimeException("Lỗi khi lưu file", e);
+            throw new BadRequestException("Lỗi khi lưu file");
         }
-    }
-
-
-    public List<String> store(List<MultipartFile> files) {
-        List<String> urls = new java.util.ArrayList<>();
-        for (MultipartFile file : files) {
-            urls.add(store(file));
-        }
-        return urls;
     }
 
     @Override
@@ -109,7 +72,7 @@ public class StorageServiceImpl implements StorageService {
             Path file = rootLocation.resolve(filePath).normalize().toAbsolutePath();
             Files.deleteIfExists(file);
         } catch (IOException e) {
-            throw new RuntimeException("Error when deleting a file", e);
+            throw new BadRequestException("Error when deleting a file");
         }
     }
 }

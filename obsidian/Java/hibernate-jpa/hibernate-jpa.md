@@ -101,9 +101,48 @@ private LocalDateTime updatedAt;
 ### Orphan Deletion
 - orphanRemoval = true: xoá child khỏi collection → xoá child khỏi database.
 
-## Liên kết kiến thức
+## NamedEntityGraph là gì?
+
+### Định nghĩa
+- `@NamedEntityGraph` là annotation trong JPA/Hibernate dùng để định nghĩa trước các Entity Graph với tên cụ thể, giúp kiểm soát việc fetch (nạp) các thuộc tính liên quan (relationship) khi truy vấn Entity.
+- Entity Graph cho phép chỉ định rõ các thuộc tính nào sẽ được nạp EAGER/LAZY khi truy vấn, tránh N+1 problem và tối ưu hiệu suất.
+
+### Cách dùng
+- Định nghĩa trên Entity với annotation `@NamedEntityGraph`.
+- Khi truy vấn (EntityManager, Repository), chỉ định tên EntityGraph để áp dụng fetch graph.
+
+### Ví dụ
+```java
+@Entity
+@NamedEntityGraph(
+    name = "User.detail",
+    attributeNodes = {
+        @NamedAttributeNode("posts"),
+        @NamedAttributeNode("roles")
+    }
+)
+public class User { ... }
+
+// Khi truy vấn:
+EntityGraph<?> graph = entityManager.getEntityGraph("User.detail");
+Map<String, Object> hints = new HashMap<>();
+hints.put("javax.persistence.fetchgraph", graph);
+User user = entityManager.find(User.class, id, hints);
+```
+
+### Khi nào dùng?
+- Khi muốn kiểm soát chính xác các quan hệ được nạp cùng entity (tránh lazy loading nhiều lần, giảm số query).
+- Khi cần tối ưu hiệu suất truy vấn phức tạp, nhiều quan hệ.
+
+### Liên kết kiến thức
+- [[hibernate-jpa/interview-questions-hibernate-jpa.md]]
+- [[hibernate-jpa/example-hibernate-jpa.md]]
+- [[hibernate-jpa/hibernate-jpa.md]]
+- [[spring-boot/spring-boot.md]] (Repository)
+
+
+## Liên kết kiến thức tổng hợp
 - [[hibernate-jpa/interview-questions-hibernate-jpa.md]]
 - [[hibernate-jpa/example-hibernate-jpa.md]]
 - [[spring-boot/spring-boot.md]] (Repository)
 - [[core-java/core-java.md]] (OOP)
-

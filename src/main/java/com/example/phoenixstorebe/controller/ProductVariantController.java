@@ -4,6 +4,7 @@ import com.example.phoenixstorebe.payload.productvariant.ProductVariantCreateReq
 import com.example.phoenixstorebe.payload.productvariant.ProductVariantUpdateRequest;
 import com.example.phoenixstorebe.payload.productvariant.ProductVariantResponse;
 import com.example.phoenixstorebe.service.ProductVariantService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class ProductVariantController {
     private ProductVariantService productVariantService;
 
     @PostMapping("/product-variants")
-    public ResponseEntity<ProductVariantResponse> create(@RequestBody ProductVariantCreateRequest request) {
+    public ResponseEntity<ProductVariantResponse> create(@RequestBody @Valid ProductVariantCreateRequest request) {
         return ResponseEntity.ok(productVariantService.createProductVariant(request));
     }
 
     @PutMapping("/product-variants/{id}")
-    public ResponseEntity<ProductVariantResponse> update(@PathVariable Long id, @RequestBody ProductVariantUpdateRequest request) {
+    public ResponseEntity<ProductVariantResponse> update(@PathVariable Long id, @RequestBody @Valid ProductVariantUpdateRequest request) {
         return ResponseEntity.ok(productVariantService.updateProductVariant(id, request));
     }
 

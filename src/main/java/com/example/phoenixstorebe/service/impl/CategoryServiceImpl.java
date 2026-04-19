@@ -1,14 +1,14 @@
 package com.example.phoenixstorebe.service.impl;
 
 import com.example.phoenixstorebe.entity.Category;
+import com.example.phoenixstorebe.exception.BadRequestException;
+import com.example.phoenixstorebe.exception.EntityNotFoundException;
 import com.example.phoenixstorebe.repository.CategoryRepository;
 import com.example.phoenixstorebe.service.CategoryService;
 import com.example.phoenixstorebe.payload.category.*;
-import com.example.phoenixstorebe.exception.BadRequestException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,65 +50,64 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findByParentIsNull().stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
+    private EntityNotFoundException throwCategoryNotFound() {
+        return new EntityNotFoundException("Category");
+    }
+    private EntityNotFoundException throwParentCategoryNotFound() {
+        return new EntityNotFoundException("Parent category");
+    }
+
     @Override
     public Optional<CategoryResponse> getCategoryById(Long id) {
-        return categoryRepository.findById(id).map(this::mapToResponse);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(this::throwCategoryNotFound);
+        return Optional.of(mapToResponse(category));
     }
 
     @Override
     public CategoryResponse createCategory(CategoryCreateRequest request) {
-        try {
+        try
+        {
             Category category = new Category();
             category.setName(request.getName());
             if (request.getParentId() != null) {
-                Optional<Category> parentOpt = categoryRepository.findById(request.getParentId());
-                if (parentOpt.isPresent()) {
-                    category.setParent(parentOpt.get());
-                } else {
-                    throw new BadRequestException("Parent category not found");
-                }
+                Category parent = categoryRepository.findById(request.getParentId())
+                        .orElseThrow(this::throwParentCategoryNotFound);
+                category.setParent(parent);
             } else {
                 category.setParent(null);
             }
             return mapToResponse(categoryRepository.save(category));
-        } catch (Exception ex) {
-            throw new BadRequestException("Create category failed");
         }
+        catch (Exception ex)
+        {
+            throw new BadRequestException("Error creating category: ");
+        }
+
     }
 
     @Override
     public Optional<CategoryResponse> updateCategory(Long id, CategoryUpdateRequest request) {
-        try {
-            Optional<Category> optionalCategory = categoryRepository.findById(id);
-            if (optionalCategory.isPresent()) {
-                Category category = optionalCategory.get();
-                category.setName(request.getName());
-                if (request.getParentId() != null) {
-                    categoryRepository.findById(request.getParentId()).ifPresent(category::setParent);
-                } else {
-                    category.setParent(null);
-                }
-                return Optional.of(mapToResponse(categoryRepository.save(category)));
-            } else {
-                throw new BadRequestException("Category not found");
-            }
-        } catch (Exception ex) {
-            throw new BadRequestException("Update category failed");
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(this::throwCategoryNotFound);
+        category.setName(request.getName());
+        if (request.getParentId() != null) {
+            Category parent = categoryRepository.findById(request.getParentId())
+                    .orElseThrow(this::throwParentCategoryNotFound);
+            category.setParent(parent);
+        } else {
+            category.setParent(null);
         }
+        return Optional.of(mapToResponse(categoryRepository.save(category)));
     }
 
     @Override
     public boolean deleteCategory(Long id) {
-        try {
-            if (categoryRepository.existsById(id)) {
-                categoryRepository.deleteById(id);
-                return true;
-            } else {
-                throw new BadRequestException("Category not found");
-            }
-        } catch (Exception ex) {
-            throw new BadRequestException("Delete category failed");
+        if (!categoryRepository.existsById(id)) {
+            throw throwCategoryNotFound();
         }
+        categoryRepository.deleteById(id);
+        return true;
     }
 
     @Override

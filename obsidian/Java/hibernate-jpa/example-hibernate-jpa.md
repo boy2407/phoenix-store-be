@@ -277,9 +277,51 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 }
 ```
 
-## Liên kết kiến thức
+## NamedEntityGraph
+
+### Ví dụ sử dụng NamedEntityGraph trong Hibernate JPA
+
+```java
+@Entity
+@NamedEntityGraph(
+    name = "User.detail",
+    attributeNodes = {
+        @NamedAttributeNode("posts"),
+        @NamedAttributeNode("roles")
+    }
+)
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "username")
+    private String username;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Post> posts;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Role> roles;
+    // ...getter/setter...
+}
+
+// Truy vấn với EntityGraph
+EntityGraph<?> graph = entityManager.getEntityGraph("User.detail");
+Map<String, Object> hints = new HashMap<>();
+hints.put("javax.persistence.fetchgraph", graph);
+User user = entityManager.find(User.class, id, hints);
+```
+
+### Spring Data JPA hỗ trợ @EntityGraph
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    @EntityGraph(value = "User.detail", type = EntityGraph.EntityGraphType.FETCH)
+    Optional<User> findById(Long id);
+}
+```
+
+### Liên kết kiến thức
 - [[hibernate-jpa/hibernate-jpa.md]]
 - [[hibernate-jpa/interview-questions-hibernate-jpa.md]]
-- [[spring-boot/spring-boot.md]] (Repository, Service)
-- [[core-java/core-java.md]] (OOP, Collection)
-
+- [[spring-boot/spring-boot.md]]

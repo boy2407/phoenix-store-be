@@ -404,3 +404,45 @@ spring.jpa.hibernate.ddl-auto=create
 - **create**/**create-drop** chỉ nên dùng để test nhanh, không dùng cho môi trường thật.
 - **validate** phù hợp khi muốn chắc chắn schema đúng, không tự động thay đổi.
 - **none** dùng khi bạn tự quản lý schema thủ công.
+
+---
+
+## 9. NamedEntityGraph là gì?
+
+**Câu trả lời ngắn gọn:**
+- `@NamedEntityGraph` là annotation JPA/Hibernate cho phép định nghĩa trước các Entity Graph để kiểm soát việc fetch các thuộc tính liên quan khi truy vấn Entity, giúp tối ưu hiệu suất và tránh N+1 problem.
+
+**Giải thích chi tiết:**
+- Entity Graph là một tập hợp các thuộc tính (thường là quan hệ) sẽ được nạp cùng entity khi truy vấn.
+- `@NamedEntityGraph` định nghĩa graph với tên cụ thể trên entity, có thể tái sử dụng khi truy vấn qua EntityManager hoặc Repository.
+- Khi truy vấn, chỉ định tên graph để JPA/Hibernate biết cần fetch những thuộc tính nào (EAGER/LAZY tuỳ ý), tránh truy vấn dư thừa hoặc lazy loading nhiều lần.
+- Rất hữu ích khi entity có nhiều quan hệ phức tạp, hoặc khi cần tối ưu số lượng query sinh ra.
+
+**Ví dụ cụ thể:**
+```java
+@Entity
+@NamedEntityGraph(
+    name = "User.detail",
+    attributeNodes = {
+        @NamedAttributeNode("posts"),
+        @NamedAttributeNode("roles")
+    }
+)
+public class User { ... }
+
+// Khi truy vấn:
+EntityGraph<?> graph = entityManager.getEntityGraph("User.detail");
+Map<String, Object> hints = new HashMap<>();
+hints.put("javax.persistence.fetchgraph", graph);
+User user = entityManager.find(User.class, id, hints);
+```
+
+**Liên kết kiến thức:**
+- [[hibernate-jpa/hibernate-jpa.md]]
+- [[hibernate-jpa/example-hibernate-jpa.md]]
+- [[spring-boot/spring-boot.md]]
+
+**Mẹo/Lưu ý:**
+- Dùng EntityGraph khi cần truy vấn nhiều quan hệ phức tạp, tránh lazy loading nhiều lần.
+- Có thể dùng với cả JPQL (setHint) hoặc Repository (Spring Data JPA hỗ trợ @EntityGraph).
+- Đặt tên rõ ràng cho EntityGraph để dễ tái sử dụng.

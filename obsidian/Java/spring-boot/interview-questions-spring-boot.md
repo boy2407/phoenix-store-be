@@ -276,3 +276,4 @@ void recursive() { recursive(); }
 - Chỉ nên bắt Exception, không nên bắt Error.
 
 ---
+
