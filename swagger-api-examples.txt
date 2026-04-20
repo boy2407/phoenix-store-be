@@ -343,3 +343,23 @@
   },
   "variant": null
 }
+
+// ===================== CART API EXAMPLES =====================
+// Thêm sản phẩm vào giỏ hàng (POST /api/cart/add)
+{
+  "variantId": 1,
+  "quantity": 2
+}
+
+// Cập nhật số lượng sản phẩm trong giỏ (PUT /api/cart/update?cartItemId=1&quantity=3)
+// Không cần body, chỉ cần truyền cartItemId và quantity trên URL
+
+// Xóa sản phẩm khỏi giỏ hàng (DELETE /api/cart/remove?cartItemId=1)
+// Không cần body, chỉ cần truyền cartItemId trên URL
+
+// Xóa toàn bộ giỏ hàng (DELETE /api/cart/clear)
+// Không cần body
+
+// Lấy giỏ hàng hiện tại (GET /api/cart)
+// Không cần body
+

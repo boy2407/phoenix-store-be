@@ -1,21 +1,24 @@
 package com.example.phoenixstorebe.controller;
 
+import com.example.phoenixstorebe.entity.User;
 import com.example.phoenixstorebe.payload.user.UserCreateRequest;
 import com.example.phoenixstorebe.payload.user.UserReponse;
 import com.example.phoenixstorebe.service.UserService;
+import com.example.phoenixstorebe.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final CartService cartService;
 
     @PostMapping("/register")
     public ResponseEntity<UserReponse> register(@RequestBody @Valid UserCreateRequest request) {
@@ -34,8 +37,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        String token = userService.login(username, password);
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
+        String token = userService.login(username, password, session);
         return ResponseEntity.ok(token);
     }
 
@@ -51,8 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-
+    public ResponseEntity<String> logout(HttpSession session) {
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok("Logout successfully");
     }

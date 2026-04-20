@@ -8,10 +8,14 @@ import com.example.phoenixstorebe.payload.user.UserReponse;
 import com.example.phoenixstorebe.repository.RoleRepository;
 import com.example.phoenixstorebe.repository.UserRepository;
 import com.example.phoenixstorebe.security.JwtService;
+import com.example.phoenixstorebe.service.CartService;
 import com.example.phoenixstorebe.service.MailService;
 import com.example.phoenixstorebe.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final MailService mailService;
+    private final CartService cartService;
     @Override
     @Transactional
     public UserReponse registerUser(UserCreateRequest request) {
@@ -97,18 +102,25 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String login(String username, String password) {
+    public String login(String username, String password, HttpSession session) {
         try {
             User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new BadRequestException("User not found"));
+
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadRequestException("Invalid password");
             }
+
             if (!user.isEnabled()) {
                 throw new BadRequestException("Account not verified");
             }
+
             // Generate JWT token and return
-            return jwtService.generateToken(user);
+            String token = jwtService.generateToken(user);
+            user = this.findUserEntityByUsername(username);
+            cartService.mergeCartSessionToDb(user, session);
+
+            return token ;
         } catch (Exception ex) {
             throw new BadRequestException("Login failed: " + ex.getMessage());
         }
@@ -151,5 +163,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String username) { throw new UnsupportedOperationException(); }
 
+    @Override
+    public User findUserEntityByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new BadRequestException("User not found"));
+    }
 
+    @Override
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof User) {
+            return (User) principal;
+        }
+        if (principal instanceof String username && !"anonymousUser".equals(username)) {
+            return userRepository.findByUsername(username).orElse(null);
+        }
+        return null;
+    }
 }

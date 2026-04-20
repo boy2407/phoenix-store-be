@@ -27,7 +27,8 @@ public class SecurityConfig {
                     "/v3/api-docs/**",
                     "/swagger-resources/**",
                     "/webjars/**",
-                    "/api/auth/**"
+                    "/api/auth/**",
+                    "/api/cart/**"
                 ).permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/**").permitAll() // Ai cũng có thể GET
                 .requestMatchers("/api/**").hasRole("ADMIN") // ADMIN toàn quyền các API khác
